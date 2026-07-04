@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Notebook } from '@phosphor-icons/react'
+import { motion } from 'motion/react'
 
 const posts = [
   {
@@ -32,59 +33,54 @@ const posts = [
   },
 ]
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.08, duration: 0.5 } }),
+}
+
 export default function Blog() {
   return (
-    <div className="mx-auto max-w-[1400px] px-6 py-16 md:py-24">
-      <div className="mb-12 space-y-3">
-        <p className="text-sm font-medium tracking-wide text-emerald-600 uppercase">
-          文章
-        </p>
-        <h1 className="text-4xl font-bold tracking-tighter text-zinc-900 md:text-5xl">
-          随笔与笔记
-        </h1>
-        <p className="text-base text-zinc-500 leading-relaxed max-w-[52ch]">
-          关于网络科学、机器学习，以及从第一性原理构建 AI 系统的思考与实践记录。
-        </p>
-      </div>
+    <div className="aurora-bg min-h-[80dvh]">
+      <div className="mx-auto max-w-[1400px] px-6 py-16 md:py-24">
+        <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }} className="space-y-10">
+          <motion.div variants={fadeUp} className="space-y-3">
+            <p className="text-sm font-medium tracking-wide text-emerald-400 uppercase">文章</p>
+            <h1 className="text-4xl font-bold tracking-tighter text-white md:text-5xl">随笔与笔记</h1>
+            <p className="text-base text-zinc-400 leading-relaxed max-w-[48ch]">
+              关于网络科学、机器学习，以及从第一性原理构建 AI 系统的思考与实践记录。
+            </p>
+          </motion.div>
 
-      <div className="divide-y divide-zinc-200/80">
-        {posts.map((post) => (
-          <article key={post.slug} className="group py-8 first:pt-0 last:pb-0">
-            <Link
-              to={`/blog/${post.slug}`}
-              className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start"
-            >
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold tracking-tight text-zinc-900 transition-colors group-hover:text-emerald-600">
-                  {post.title}
-                </h2>
-                <p className="text-sm text-zinc-500 leading-relaxed max-w-[60ch]">
-                  {post.excerpt}
-                </p>
-                <div className="flex flex-wrap items-center gap-3 pt-1">
-                  <time className="text-xs text-zinc-400">{post.date}</time>
-                  <span className="text-zinc-300">&middot;</span>
-                  {post.tags.map((t) => (
-                    <span key={t} className="text-xs font-medium text-zinc-400">
-                      {t}
-                    </span>
-                  ))}
-                </div>
+          <div className="divide-y divide-white/[0.06]">
+            {posts.map((post, i) => (
+              <motion.article key={post.slug} variants={fadeUp} custom={i} className="group py-8 first:pt-0 last:pb-0">
+                <Link to={`/blog/${post.slug}`} className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-semibold tracking-tight text-white transition-colors group-hover:text-emerald-400">
+                      {post.title}
+                    </h2>
+                    <p className="text-sm text-zinc-400 leading-relaxed max-w-[60ch]">{post.excerpt}</p>
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      <time className="text-xs text-zinc-500">{post.date}</time>
+                      <span className="text-zinc-700">&middot;</span>
+                      {post.tags.map((t) => (
+                        <span key={t} className="text-xs font-medium text-zinc-500">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <ArrowRight weight="bold" className="hidden h-5 w-5 text-zinc-600 transition-all group-hover:text-emerald-400 group-hover:translate-x-1 md:block" />
+                </Link>
+              </motion.article>
+            ))}
+
+            {posts.length === 0 && (
+              <div className="flex flex-col items-center gap-4 py-24 text-center">
+                <Notebook className="h-12 w-12 text-zinc-700" />
+                <p className="text-zinc-500">还没有文章，稍后再来看看。</p>
               </div>
-              <ArrowRight
-                weight="bold"
-                className="hidden h-5 w-5 text-zinc-300 transition-colors group-hover:text-emerald-500 md:block"
-              />
-            </Link>
-          </article>
-        ))}
-
-        {posts.length === 0 && (
-          <div className="flex flex-col items-center gap-4 py-24 text-center">
-            <Notebook className="h-12 w-12 text-zinc-300" />
-            <p className="text-zinc-400">还没有文章，稍后再来看看。</p>
+            )}
           </div>
-        )}
+        </motion.div>
       </div>
     </div>
   )
