@@ -1,14 +1,1072 @@
-<!doctype html>
-<html lang="zh-CN" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="周祖豪 — 探索如何让人建立健康而有意义的人生。个人网站，持续创造价值。" />
-    <title>周祖豪 — 人生操作系统</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周祖豪 — 个人简历 | 外贸销售 / 跨境电商</title>
+
+    <!-- ===== Google Fonts: Inter ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+    /* ==================================================================
+       CSS 变量 & 全局重置
+       ================================================================== */
+    :root {
+        /* 深蓝色阶 */
+        --navy-900: #0a1628;
+        --navy-800: #0f1f38;
+        --navy-700: #152a4a;
+        --navy-600: #1b3659;
+        --navy-500: #234567;
+        --navy-400: #3a5a7c;
+
+        /* 金色点缀 */
+        --gold:        #c9a96e;
+        --gold-light:  #dcc08a;
+        --gold-dark:   #b8944f;
+
+        /* 中性色 */
+        --white:       #ffffff;
+        --gray-50:     #f7f8fa;
+        --gray-100:    #eef0f4;
+        --gray-200:    #dde1e8;
+        --gray-300:    #c2c8d2;
+        --gray-400:    #9aa2af;
+        --gray-500:    #6b7382;
+        --gray-600:    #4a515d;
+        --gray-700:    #2d333f;
+        --gray-800:    #1a1f2b;
+
+        /* 排版 */
+        --font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+                        'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --font-mono:   'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Consolas', monospace;
+
+        --sidebar-w:   340px;
+        --content-max: 820px;
+
+        --radius-sm:   6px;
+        --radius-md:   10px;
+        --radius-lg:   14px;
+
+        --shadow-sm:   0 1px 3px rgba(10, 22, 40, 0.06);
+        --shadow-md:   0 4px 12px rgba(10, 22, 40, 0.08);
+        --shadow-lg:   0 8px 30px rgba(10, 22, 40, 0.12);
+        --shadow-xl:   0 14px 48px rgba(10, 22, 40, 0.18);
+
+        --transition:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 24px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        font-family: var(--font-sans);
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--gray-700);
+        background: var(--gray-50);
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* 链接全局样式 */
+    a {
+        color: var(--navy-500);
+        text-decoration: none;
+        transition: color var(--transition);
+    }
+    a:hover {
+        color: var(--gold-dark);
+    }
+
+    /* ==================================================================
+       侧边栏 — 个人信息区
+       ================================================================== */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: var(--sidebar-w);
+        height: 100vh;
+        background: linear-gradient(170deg, var(--navy-800) 0%, var(--navy-900) 100%);
+        color: var(--white);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 48px 32px 32px;
+        overflow-y: auto;
+        z-index: 100;
+        box-shadow: 2px 0 40px rgba(10, 22, 40, 0.25);
+    }
+
+    /* CSS 绘制的头像 */
+    .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--navy-400) 0%, var(--navy-600) 50%, var(--navy-800) 100%);
+        border: 3px solid var(--gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--white);
+        letter-spacing: 0;
+        flex-shrink: 0;
+        margin-bottom: 20px;
+        position: relative;
+        box-shadow: 0 0 0 8px rgba(201, 169, 110, 0.12);
+    }
+
+    .sidebar-name {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: 4px;
+    }
+
+    .sidebar-badge {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--gold);
+        background: rgba(201, 169, 110, 0.1);
+        border: 1px solid rgba(201, 169, 110, 0.25);
+        border-radius: 20px;
+        padding: 4px 16px;
+        margin-bottom: 18px;
+    }
+
+    .sidebar-tagline {
+        font-size: 13px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.65);
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 24px;
+    }
+
+    .sidebar-divider {
+        width: 40px;
+        height: 2px;
+        background: var(--gold);
+        opacity: 0.5;
+        border: none;
+        margin: 0 auto 24px;
+    }
+
+    .sidebar-contact {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 13px;
+    }
+
+    .sidebar-contact a {
+        color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        transition: all var(--transition);
+        word-break: break-all;
+    }
+
+    .sidebar-contact a:hover {
+        color: var(--gold);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-contact .icon {
+        width: 18px;
+        text-align: center;
+        flex-shrink: 0;
+        font-size: 15px;
+    }
+
+    /* 侧边栏底部：职业目标标签 */
+    .sidebar-goals {
+        margin-top: auto;
+        padding-top: 24px;
+        width: 100%;
+        text-align: center;
+    }
+    .sidebar-goals .goal-title {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--gold);
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+    .goal-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+    }
+    .goal-tags span {
+        font-size: 11px;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ==================================================================
+       主内容区
+       ================================================================== */
+    .main {
+        margin-left: var(--sidebar-w);
+        flex: 1;
+        max-width: var(--content-max);
+        padding: 48px 52px 80px;
+    }
+
+    /* ===== 导航栏 ===== */
+    .nav {
+        position: sticky;
+        top: 0;
+        z-index: 90;
+        background: rgba(247, 248, 250, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--gray-100);
+        display: flex;
+        gap: 4px;
+        padding: 10px 0;
+        margin-bottom: 36px;
+        flex-wrap: wrap;
+    }
+    .nav a {
+        font-size: 13px;
+        font-weight: 500;
+        padding: 6px 14px;
+        border-radius: 20px;
+        color: var(--gray-500);
+        transition: all var(--transition);
+        white-space: nowrap;
+    }
+    .nav a:hover,
+    .nav a.active {
+        color: var(--navy-600);
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* ===== 通用区块标题 ===== */
+    .section {
+        margin-bottom: 48px;
+    }
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--navy-800);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--gray-100);
+        position: relative;
+        letter-spacing: 1px;
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 48px;
+        height: 2px;
+        background: var(--gold);
+    }
+
+    /* ===== 卡片组件 ===== */
+    .card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        padding: 28px 30px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-100);
+        transition: all var(--transition);
+    }
+    .card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+    .card-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--navy-700);
+    }
+    .card-meta {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--gold-dark);
+        background: rgba(201, 169, 110, 0.1);
+        padding: 3px 10px;
+        border-radius: 12px;
+        white-space: nowrap;
+    }
+    .card-role {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--navy-400);
+        margin-bottom: 12px;
+    }
+    .card ul {
+        list-style: none;
+        padding: 0;
+    }
+    .card ul li {
+        position: relative;
+        padding-left: 18px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.65;
+        color: var(--gray-600);
+    }
+    .card ul li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 9px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold);
+    }
+
+    /* 数据加亮 */
+    .highlight {
+        font-weight: 700;
+        color: var(--navy-600);
+    }
+    .metric {
+        font-weight: 700;
+        color: var(--gold-dark);
+    }
+
+    /* ===== 核心优势卡片（三列网格） ===== */
+    .strengths-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+    }
+    .strength-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        padding: 26px 24px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-100);
+        border-top: 3px solid var(--navy-500);
+        transition: all var(--transition);
+    }
+    .strength-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+        border-top-color: var(--gold);
+    }
+    .strength-card .sc-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .strength-card h4 {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--navy-700);
+        margin-bottom: 8px;
+    }
+    .strength-card p {
+        font-size: 13px;
+        line-height: 1.6;
+        color: var(--gray-500);
+    }
+
+    /* ===== 技能标签云 ===== */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .skill-item {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        padding: 20px 22px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-100);
+        transition: all var(--transition);
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .skill-item:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+    }
+    .skill-icon {
+        font-size: 22px;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+        background: rgba(35, 69, 103, 0.06);
+    }
+    .skill-info h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--navy-700);
+        margin-bottom: 2px;
+    }
+    .skill-info p {
+        font-size: 12px;
+        color: var(--gray-500);
+        line-height: 1.5;
+    }
+
+    /* ===== 方法论步骤 ===== */
+    .method-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+    .method-step {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        padding: 24px 20px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-100);
+        text-align: center;
+        transition: all var(--transition);
+    }
+    .method-step:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+    .method-step .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--navy-500);
+        color: var(--white);
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+    .method-step h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--navy-700);
+        margin-bottom: 6px;
+    }
+    .method-step p {
+        font-size: 13px;
+        color: var(--gray-500);
+        line-height: 1.55;
+    }
+
+    /* ===== 兴趣列表 ===== */
+    .interests-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+    .interest-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--gray-600);
+        background: var(--white);
+        padding: 10px 18px;
+        border-radius: 24px;
+        border: 1px solid var(--gray-100);
+        box-shadow: var(--shadow-sm);
+    }
+    .interest-item .ii-icon {
+        font-size: 18px;
+    }
+
+    /* ===== 联系 CTA 区域 ===== */
+    .cta-section {
+        background: linear-gradient(135deg, var(--navy-800) 0%, var(--navy-700) 100%);
+        border-radius: var(--radius-lg);
+        padding: 44px 40px;
+        text-align: center;
+        color: var(--white);
+        box-shadow: var(--shadow-lg);
+    }
+    .cta-section h3 {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .cta-section p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 28px;
+    }
+    .cta-links {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 26px;
+        border-radius: 28px;
+        transition: all var(--transition);
+        text-decoration: none;
+    }
+    .cta-btn-email {
+        background: var(--gold);
+        color: var(--navy-900);
+    }
+    .cta-btn-email:hover {
+        background: var(--gold-light);
+        color: var(--navy-900);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(201, 169, 110, 0.35);
+    }
+    .cta-btn-github {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .cta-btn-github:hover {
+        background: rgba(255, 255, 255, 0.18);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    /* ===== 页脚 ===== */
+    .footer {
+        text-align: center;
+        font-size: 12px;
+        color: var(--gray-400);
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--gray-100);
+    }
+
+    /* ==================================================================
+       响应式：平板 (< 1024px)
+       ================================================================== */
+    @media (max-width: 1024px) {
+        :root {
+            --sidebar-w: 280px;
+        }
+        .main {
+            padding: 36px 32px 60px;
+        }
+    }
+
+    /* ==================================================================
+       响应式：手机 (< 768px) — 侧边栏变顶部横幅
+       ================================================================== */
+    @media (max-width: 768px) {
+        body {
+            flex-direction: column;
+        }
+        .sidebar {
+            position: relative;
+            width: 100%;
+            height: auto;
+            padding: 36px 24px 28px;
+            box-shadow: 0 4px 24px rgba(10, 22, 40, 0.18);
+        }
+        .sidebar-goals {
+            margin-top: 20px;
+        }
+        .main {
+            margin-left: 0;
+            padding: 28px 20px 48px;
+        }
+        .nav {
+            top: 0;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .nav::-webkit-scrollbar { display: none; }
+        .strengths-grid {
+            grid-template-columns: 1fr;
+        }
+        .skills-grid {
+            grid-template-columns: 1fr;
+        }
+        .method-steps {
+            grid-template-columns: 1fr;
+        }
+        .cta-section {
+            padding: 32px 24px;
+        }
+    }
+
+    /* ==================================================================
+       打印样式（方便导出 PDF 投递）
+       ================================================================== */
+    @media print {
+        body {
+            font-size: 12px;
+            color: #000;
+            background: #fff;
+        }
+        .sidebar {
+            position: static;
+            width: 100%;
+            height: auto;
+            background: #fff !important;
+            color: #000 !important;
+            box-shadow: none;
+            padding: 20px;
+            page-break-after: always;
+        }
+        .sidebar a,
+        .sidebar .sidebar-tagline,
+        .sidebar .goal-tags span { color: #333 !important; }
+        .main {
+            margin-left: 0;
+        }
+        .nav { display: none; }
+        .card, .strength-card, .skill-item, .method-step {
+            box-shadow: none;
+            border: 1px solid #ccc;
+            break-inside: avoid;
+        }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- ==================================================================
+        侧边栏 — 个人信息区
+        ================================================================== -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- CSS 绘制的头像：深蓝渐变圆形 + "周"字 + 金色细边 -->
+        <div class="avatar" aria-label="周祖豪头像">周</div>
+
+        <h1 class="sidebar-name">周祖豪</h1>
+
+        <span class="sidebar-badge">杭州师范大学 · 数字经济 · 2026届</span>
+
+        <p class="sidebar-tagline">
+            具备极强的跨领域知识迁移能力与环境融入力。<br>
+            擅长从0到1搭建私域销售漏斗，<br>
+            曾通过小红书日引流<span style="color:var(--gold);font-weight:600;">50+</span>精准客户。<br>
+            目标从事<strong>外贸销售</strong>或<strong>大客户销售</strong>工作。
+        </p>
+
+        <hr class="sidebar-divider">
+
+        <!-- 联系方式 -->
+        <div class="sidebar-contact">
+            <a href="mailto:2483357517@qq.com" title="发送邮件">
+                <span class="icon">✉</span> 2483357517@qq.com
+            </a>
+            <a href="https://github.com/zhouzuhao990-sudo/zhouzuhao990-sudo.github.io" target="_blank" rel="noopener" title="GitHub 主页">
+                <span class="icon">⌘</span> GitHub
+            </a>
+        </div>
+
+        <!-- 职业目标标签 -->
+        <div class="sidebar-goals">
+            <div class="goal-title">▸ 职业目标</div>
+            <div class="goal-tags">
+                <span>外贸销售</span>
+                <span>跨境电商运营</span>
+                <span>大客户销售</span>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- ==================================================================
+        主内容区
+        ================================================================== -->
+    <main class="main" id="main">
+
+        <!-- ===== 导航栏（sticky） ===== -->
+        <nav class="nav" id="nav">
+            <a href="#education">教育背景</a>
+            <a href="#strengths">核心优势</a>
+            <a href="#projects">项目经历</a>
+            <a href="#skills">技能</a>
+            <a href="#methodology">方法论</a>
+            <a href="#interests">兴趣</a>
+            <a href="#contact">联系我</a>
+        </nav>
+
+
+        <!-- ===== 教育背景 ===== -->
+        <section class="section" id="education">
+            <h2 class="section-title">教育背景</h2>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">杭州师范大学</span>
+                    <span class="card-meta">2023.09 – 2027.06（大三）</span>
+                </div>
+                <div class="card-role">数字经济专业</div>
+                <ul>
+                    <li><strong>核心课程：</strong>商务数据分析、统计学、供应链管理</li>
+                    <li><strong>英语能力：</strong>CET-4，具备英文商务函电阅读能力，熟悉外贸基础术语（FOB、CIF、L/C、T/T 等）</li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- ===== 核心优势 ===== -->
+        <section class="section" id="strengths">
+            <h2 class="section-title">核心优势</h2>
+
+            <div class="strengths-grid">
+
+                <!-- 优势一 -->
+                <div class="strength-card">
+                    <div class="sc-icon">🎯</div>
+                    <h4>顾问式倾听型销售</h4>
+                    <p>
+                        性格沉稳，善于在沟通中精准倾听客户潜台词，利用心理学与哲学知识洞察客户深层需求，通过真诚建议促成交易，契合<strong>B2B外贸与大客户销售</strong>特质。
+                    </p>
+                </div>
+
+                <!-- 优势二 -->
+                <div class="strength-card">
+                    <div class="sc-icon">📊</div>
+                    <h4>成本与数据算账能力（金融思维）</h4>
+                    <p>
+                        面对千川投流 ROI&lt;1 的逆境，能快速基于数据做出止损决策，具备外贸业务员必备的<strong>「利润 = 收入 − 成本」</strong>底线思维。
+                    </p>
+                </div>
+
+                <!-- 优势三 -->
+                <div class="strength-card">
+                    <div class="sc-icon">🌐</div>
+                    <h4>快速融入与跨文化适应力</h4>
+                    <p>
+                        知识面涵盖金融、心理学与人文社科，适应力极强，善于拆解复杂新领域，能快速适应外贸团队的<strong>时差沟通与多元文化背景</strong>。
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ===== 项目经历（按 STAR 法则呈现） ===== -->
+        <section class="section" id="projects">
+            <h2 class="section-title">项目经历</h2>
+
+            <!-- 项目一 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">小红书内容引流与私域销售转化实战</span>
+                    <span class="card-meta">2025.06 – 2025.08</span>
+                </div>
+                <div class="card-role">角色：前端获客与销售转化</div>
+
+                <!-- STAR: 情境 -->
+                <p style="font-size:13px;color:var(--gray-400);margin-bottom:10px;">
+                    📍 <strong>情境：</strong>虚拟产品赛道竞争激烈，需从0搭建低成本获客-转化闭环。
+                </p>
+                <ul>
+                    <!-- 任务 & 行动 & 结果 融合 -->
+                    <li>
+                        <strong>内容获客：</strong>独立负责小红书内容策划与发布，产出单篇阅读
+                        <span class="metric">3万+</span> 爆文，构建前端流量入口。
+                    </li>
+                    <li>
+                        <strong>私域销售转化：</strong>将公域流量引入个人微信，日均触达维护
+                        <span class="metric">50+</span> 潜在客户，进行一对一顾问式解答，最终综合销售转化率
+                        <span class="metric">5%</span>（高于行业平均）。
+                    </li>
+                    <li>
+                        <strong>数据复盘：</strong>持续监测「引流 → 开口 → 成交」各环节转化率，验证销售话术与信任建立能力。
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 项目二 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">抖音千川投流数据监控与项目紧急止损复盘</span>
+                    <span class="card-meta">2025.09 – 2026.01</span>
+                </div>
+                <div class="card-role">角色：运营助理（数据与成本侧）</div>
+
+                <!-- STAR: 情境 -->
+                <p style="font-size:13px;color:var(--gray-400);margin-bottom:10px;">
+                    📍 <strong>情境：</strong>群斐项目初期千川投流 ROI 持续低于 1，面临严重亏损风险。
+                </p>
+                <ul>
+                    <li>
+                        <strong>快速试错与成本管控：</strong>项目初期千川日均消耗高达
+                        <span class="metric">6,000 元</span>，ROI 仅为
+                        <span class="metric">0.7–1</span>，敏锐察觉风险并果断建议缩减投放，执行紧急止损。
+                    </li>
+                    <li>
+                        <strong>精细化调整：</strong>后期将日消耗降至
+                        <span class="metric">百元级别</span>，稳定 ROI 在 0.7–1 区间，遏制持续亏损。
+                    </li>
+                    <li>
+                        <strong>流程化提效：</strong>制定《直播前设备与商品检查 SOP》，将开播准备失误率降为
+                        <span class="metric">0</span>。
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- ===== 技能列表 ===== -->
+        <section class="section" id="skills">
+            <h2 class="section-title">专业技能</h2>
+
+            <div class="skills-grid">
+
+                <div class="skill-item">
+                    <div class="skill-icon">✍️</div>
+                    <div class="skill-info">
+                        <h4>内容创作</h4>
+                        <p>小红书运营，单篇最高阅读 <span class="metric">3万+</span>，转化率 <span class="metric">5%</span></p>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-icon">💬</div>
+                    <div class="skill-info">
+                        <h4>私域销售</h4>
+                        <p>微信社群 1对1 转化，日均触达 <span class="metric">50+</span> 客户，高客单价虚拟产品成交</p>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-icon">📺</div>
+                    <div class="skill-info">
+                        <h4>直播运营</h4>
+                        <p>从0到1搭建抖音直播环境，熟悉千川投流数据监控与 ROI 分析</p>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-icon">📈</div>
+                    <div class="skill-info">
+                        <h4>数据分析</h4>
+                        <p>Excel 数据统计，GMV / ROI / 转化成本日报制作</p>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-icon">🚢</div>
+                    <div class="skill-info">
+                        <h4>跨境认知</h4>
+                        <p>了解 TikTok Shop 与 Amazon 基础后台架构，有意向深耕跨境电商</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ===== 方法论 ===== -->
+        <section class="section" id="methodology">
+            <h2 class="section-title">逆境销售决策模型</h2>
+
+            <div class="method-steps">
+
+                <div class="method-step">
+                    <div class="step-num">1</div>
+                    <h4>算账定生死</h4>
+                    <p>任何销售动作盯住 ROI 与获客成本，投产比长期低于 1 则果断止损。</p>
+                </div>
+
+                <div class="method-step">
+                    <div class="step-num">2</div>
+                    <h4>换渠道找增量</h4>
+                    <p>付费流量走不通时，切换到私域 / 内容免费流量。</p>
+                </div>
+
+                <div class="method-step">
+                    <div class="step-num">3</div>
+                    <h4>流程保交付</h4>
+                    <p>确保交付流程零失误，保留客户口碑与复购可能。</p>
+                </div>
+
+            </div>
+
+            <!-- 实践案例 -->
+            <div class="card" style="border-left: 3px solid var(--gold);">
+                <h4 style="font-size:15px;font-weight:700;color:var(--navy-700);margin-bottom:8px;">
+                    💡 实践案例
+                </h4>
+                <p style="font-size:14px;color:var(--gray-600);line-height:1.65;">
+                    在<strong>群斐项目</strong>中，将千川消耗从日均
+                    <span class="metric">6,000 元</span> 降至
+                    <span class="metric">百元</span>，同时通过微信私域维持稳定触达，保住现金流底线。
+                </p>
+            </div>
+        </section>
+
+
+        <!-- ===== 兴趣与自我驱动 ===== -->
+        <section class="section" id="interests">
+            <h2 class="section-title">兴趣与自我驱动</h2>
+
+            <div class="interests-list">
+                <div class="interest-item">
+                    <span class="ii-icon">📚</span> 阅读哲学、金融、心理学书籍
+                </div>
+                <div class="interest-item">
+                    <span class="ii-icon">🧠</span> 认知心理学模型 → 销售话术迁移
+                </div>
+                <div class="interest-item">
+                    <span class="ii-icon">🎬</span> 纪录片：《人生七年》《迷失东京》
+                </div>
+                <div class="interest-item">
+                    <span class="ii-icon">🗣️</span> 多学科视角拆解复杂问题
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===== 联系我 CTA 区域 ===== -->
+        <section class="section" id="contact">
+            <div class="cta-section">
+                <h3>期待与您交流</h3>
+                <p>如果您正在寻找一位具备数据思维、销售实战与跨境视野的团队成员，欢迎随时联系我。</p>
+                <div class="cta-links">
+                    <a href="mailto:2483357517@qq.com" class="cta-btn cta-btn-email">
+                        ✉ 发送邮件
+                    </a>
+                    <a href="https://github.com/zhouzuhao990-sudo/zhouzuhao990-sudo.github.io" target="_blank" rel="noopener" class="cta-btn cta-btn-github">
+                        ⌘ 访问 GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===== 页脚 ===== -->
+        <footer class="footer">
+            © 2025 周祖豪 &nbsp;|&nbsp; 杭州师范大学 数字经济 2026届 &nbsp;|&nbsp; 外贸销售 / 跨境电商 / 大客户销售
+        </footer>
+
+    </main>
+
+
+    <!-- ==================================================================
+        JavaScript 交互逻辑
+        ================================================================== -->
+    <script>
+    (function () {
+        'use strict';
+
+        /* ----------------------------------------------------------
+           导航栏 IntersectionObserver：自动高亮当前可见章节
+           ---------------------------------------------------------- */
+        const nav = document.getElementById('nav');
+        const navLinks = nav.querySelectorAll('a');
+        const sections = [];
+
+        // 收集所有被导航引用的 section
+        navLinks.forEach(function (link) {
+            var href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                var section = document.getElementById(href.slice(1));
+                if (section) {
+                    sections.push({ link: link, section: section });
+                }
+            }
+        });
+
+        if (sections.length > 0 && 'IntersectionObserver' in window) {
+            var observerOptions = {
+                root: null,
+                rootMargin: '-48px 0px -60% 0px', // 当章节接近顶部时触发
+                threshold: 0
+            };
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        // 移除所有 active
+                        navLinks.forEach(function (l) { l.classList.remove('active'); });
+                        // 找到对应的导航链接并高亮
+                        var match = sections.find(function (s) { return s.section === entry.target; });
+                        if (match) {
+                            match.link.classList.add('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(function (s) { observer.observe(s.section); });
+        }
+
+        /* ----------------------------------------------------------
+           平滑滚动 — 已通过 CSS scroll-behavior: smooth 实现；
+           此处为不支持 smooth 的浏览器做 polyfill 降级。
+           ---------------------------------------------------------- */
+        nav.addEventListener('click', function (e) {
+            var link = e.target.closest('a');
+            if (!link) return;
+            var href = link.getAttribute('href');
+            if (!href || !href.startsWith('#')) return;
+
+            e.preventDefault();
+            var target = document.getElementById(href.slice(1));
+            if (!target) return;
+
+            // 原生平滑滚动（现代浏览器均支持）
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // 更新 URL hash（不触发跳转）
+            if (history.pushState) {
+                history.pushState(null, null, href);
+            }
+        });
+
+    })();
+    </script>
+
+</body>
 </html>
